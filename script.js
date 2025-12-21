@@ -246,7 +246,7 @@ async function calculateFareByPostcode() {
 
         displayResults();
 
-    } catch (error) {
+    } catch (_error) {
         console.error('Calculation error:', error);
         alert('An error occurred. Please try again.');
     } finally {
