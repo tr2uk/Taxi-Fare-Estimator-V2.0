@@ -143,7 +143,7 @@ async function validateAndGeocode(postcode) {
         } else {
             throw new Error('Postcode not found');
         }
-    } catch (error) {
+    } catch (_error) {
         return null;
     }
 }
