@@ -41,7 +41,7 @@ const ROTHER_POSTCODES = [
 
 // Global variables
 let currentJourneyData = {};
-const routeDatabase = JSON.parse(...) || {};
+const routeDatabase = JSON.parse(localStorage.getItem('villageTaxiRoutes')) || {};
 
 // === DOĞRU FARE HESAPLAMA (DÜZELTİLDİ - Resmi tarife ile tam uyumlu) ===
 function calculateMeterFare(distanceMiles, tariff) {
