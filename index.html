@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Village Taxi Rye - Taxi Fare Estimator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="main-container">
+        <!-- HEADER -->
+        <header class="header">
+            <img src="logo.png" alt="Village Taxi Rye Logo" class="logo">
+            <h1>Village Taxi Rye</h1>
+            <p class="tagline">Taxi Fare Estimator</p>
+        </header>
+
+        <!-- TAB NAVIGATION -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('postcode')">
+                <i class="fas fa-map-pin"></i> By Postcode
+            </button>
+            <button class="tab-btn" onclick="switchTab('distance')">
+                <i class="fas fa-road"></i> By Distance
+            </button>
+        </div>
+
+        <!-- BY POSTCODE TAB -->
+        <div id="tab-postcode" class="tab-content active">
+            <div class="calculator-card">
+                <div class="form-group">
+                    <label><i class="fas fa-map-marker-alt"></i> Pick-up Postcode</label>
+                    <input type="text" id="pickup-postcode" placeholder="e.g., TN31 7HA">
+                </div>
+                
+                <div class="form-group">
+                    <label><i class="fas fa-map-pin"></i> Destination Postcode</label>
+                    <input type="text" id="destination-postcode" placeholder="e.g., TN40 1AB">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="far fa-calendar-alt"></i> Date</label>
+                        <input type="date" id="travelDate-postcode">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="far fa-clock"></i> Time</label>
+                        <input type="time" id="travelTime-postcode">
+                    </div>
+                </div>
+
+                <button type="button" class="btn-calculate" id="calc-postcode-btn">
+                    <i class="fas fa-calculator"></i> Calculate Fare
+                </button>
+            </div>
+        </div>
+
+        <!-- BY DISTANCE TAB -->
+        <div id="tab-distance" class="tab-content">
+            <div class="calculator-card">
+                <div class="form-group">
+                    <label><i class="fas fa-route"></i> Journey Distance (miles)</label>
+                    <input type="number" id="distance-miles" placeholder="e.g., 8.5" step="0.1" min="0.5" max="100">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="far fa-calendar-alt"></i> Date</label>
+                        <input type="date" id="travelDate-distance">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="far fa-clock"></i> Time</label>
+                        <input type="time" id="travelTime-distance">
+                    </div>
+                </div>
+
+                <button type="button" class="btn-calculate" id="calc-distance-btn">
+                    <i class="fas fa-calculator"></i> Calculate Fare
+                </button>
+            </div>
+        </div>
+
+        <!-- RESULT SECTION -->
+        <div id="result-section" class="result-card hidden">
+            <h2 class="result-title">Estimated Fare</h2>
+            
+            <div class="price-display">
+                <span class="currency">£</span><span id="priceAmount">0.00</span>
+            </div>
+         <div class="journey-info">
+    <p class="route-info" id="routeInfo"></p>
+    <p>Distance: <strong id="distanceDisplay">0 miles</strong></p>
+    <p><strong id="tariffDisplay">Tariff 1 Applied</strong></p>
+    <em id="tariff-desc"></em>
+</div>
+            <div class="action-buttons">
+                <button onclick="openQuoteModal()" class="btn-quote">
+                    <i class="fas fa-file-alt"></i> Request Special Quote
+                </button>
+                <a href="tel:+447479012485" class="btn-book">
+                    <i class="fas fa-phone"></i> Book Now (Call)
+                </a>
+            </div>
+
+            <div class="disclaimer-box">
+                <p><i class="fas fa-exclamation-circle"></i>*This is a rough estimate only. Traffic, waiting times, bank holiday extras, tolls, bridge fees or congestion charges are not included. The final fare is determined by the taximeter.<br><br>
+Fare calculation is based on Rother District Council taxi tariff rates (valid as of 2024/2025).</p>
+            </div>
+
+            <button onclick="resetCalculator()" class="btn-new-calc">
+                <i class="fas fa-redo"></i> New Calculation
+            </button>
+        </div>
+
+        <!-- QUOTE MODAL -->
+        <div id="quote-modal" class="modal hidden">
+            <div class="modal-overlay" onclick="closeQuoteModal()"></div>
+            <div class="modal-content">
+                <button onclick="closeQuoteModal()" class="modal-close">×</button>
+                
+                <h2>Request Special Quote</h2>
+                <p class="modal-subtitle">We'll get back to you shortly with a confirmed price.</p>
+                
+                <form id="quoteForm" onsubmit="submitQuote(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Pick-up</label>
+                            <input type="text" id="q_pickup" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Destination</label>
+                            <input type="text" id="q_destination" readonly>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Date</label>
+                            <input type="date" id="q_date" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Time</label>
+                            <input type="time" id="q_time" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Your Name</label>
+                        <input type="text" name="name" required placeholder="John Doe">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone</label>
+                            <input type="tel" name="phone" required placeholder="+44 7...">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" name="email" required placeholder="name@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="contact-label">Preferred Contact Method</label>
+                        <div class="radio-options">
+                            <label class="radio-label">
+                                <input type="radio" name="contactMethod" value="WhatsApp" checked>
+                                <span>WhatsApp</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="contactMethod" value="Email">
+                                <span>Email</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="contactMethod" value="SMS">
+                                <span>SMS</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-paper-plane"></i> Send Request
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- SUCCESS MESSAGE -->
+        <div id="success-message" class="success-card hidden">
+            <i class="fas fa-check-circle success-icon"></i>
+            <h2>Request Received!</h2>
+            <p>Thank you. We have received your request. We will contact you shortly with a personalized price.</p>
+            <button onclick="resetCalculator()" class="btn-calculate">
+                <i class="fas fa-plus"></i> New Journey
+            </button>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>&copy; 2025 Village Taxi Rye. All Rights Reserved.</p>
+            <p class="designer-credit">
+                Software & Design by <a href="https://www.tr2uk.com" target="_blank">TR2UK.com</a>
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script>
+       (function(){ emailjs.init("92YBE6hxDJRYbCyuw"); })();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html

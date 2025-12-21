@@ -1,0 +1,685 @@
+/* === GLOBAL RESET & VARIABLES === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --dark-green: #2F5233;
+    --sage-green: #7DA2A9;
+    --cream: #F5F5DC;
+    --cream-dark: #E8E8D0;
+    --text-primary: #2F5233;
+    --text-secondary: #5a5a5a;
+    --border-color: #c8c8b0;
+    --success-green: #4CAF50;
+    --warning-amber: #856404;
+    --warning-bg: #FFF3CD;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: linear-gradient(135deg, #89b8c0 0%, #b8d8dc 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.main-container {
+    width: 100%;
+    max-width: 550px;
+    margin: 0 auto;
+}
+
+/* === HEADER === */
+.header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.logo {
+    width: 240px;                  /* Biraz büyüttük */
+    height: auto;
+    margin: 0 auto 20px;           /* Alt boşluk biraz arttı, dengeli dursun */
+    display: block;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+}
+
+.header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin-bottom: 8px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.tagline {
+    font-family: 'Lato', sans-serif;
+    font-size: 2rem;            /* Biraz büyüttük */
+    font-style: normal;
+    color: #a20606;                /* Daha net krem tonu */
+    font-weight: 600;              /* Biraz kalın */
+    letter-spacing: 0.5px;
+    margin-top: 10px;
+}
+
+/* === TAB NAVIGATION === */
+.tab-navigation {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    flex: 1;
+    padding: 14px 20px;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.tab-btn:hover {
+    background: var(--cream);
+    border-color: var(--sage-green);
+}
+
+.tab-btn.active {
+    background: var(--dark-green);
+    color: white;
+    border-color: var(--dark-green);
+}
+
+.tab-btn i {
+    margin-right: 8px;
+}
+
+/* === TAB CONTENT === */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* === CALCULATOR CARD === */
+.calculator-card {
+    background: var(--cream);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border: 3px solid #d4d4be;
+}
+
+/* === FORM ELEMENTS === */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+label {
+    display: block;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+label i {
+    margin-right: 6px;
+    color: var(--sage-green);
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="time"],
+input[type="email"],
+input[type="tel"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    background: white;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--sage-green);
+    box-shadow: 0 0 0 3px rgba(125, 162, 169, 0.1);
+}
+
+input[readonly] {
+    background: var(--cream-dark);
+    cursor: not-allowed;
+    color: var(--text-secondary);
+}
+
+/* === BUTTONS === */
+.btn-calculate {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(47, 82, 51, 0.3);
+}
+
+.btn-calculate:hover:not(:disabled) {
+    background: #1e3a22;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(47, 82, 51, 0.4);
+}
+
+.btn-calculate:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-calculate i {
+    margin-right: 10px;
+}
+
+/* === RESULT CARD === */
+.result-card {
+    background: #e8f4f5;                   /* Açık turkuaz zemin, girişle uyumlu */
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    border: 1px solid var(--sage-green);
+    text-align: center;
+}
+
+.result-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.price-display {
+    font-family: 'Playfair Display', serif;  /* Şık serif font korundu */
+    font-size: 5.5rem;                      /* Rakamlar daha büyük */
+    font-weight: 800;                       /* Daha kalın ve dikkat çekici */
+    color: var(--dark-green);
+    line-height: 1;
+    margin: 20px 0 30px;
+    letter-spacing: -2px;                   /* Harfler birbirine yakın, profesyonel durur */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1); /* Hafif gölge, derinlik katsın */
+}
+
+.currency {
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;                        /* £ işareti de büyüdü */
+    vertical-align: top;
+    margin-right: 8px;
+    font-weight: 800;
+    color: var(--dark-green);
+}
+
+.journey-info {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.journey-info p {
+    font-size: 1.25rem;            /* Yazılar büyüdü, öne çıksın */
+    color: var(--text-primary);
+    margin: 20px 0;
+    font-weight: 600;
+}
+
+.journey-info strong {
+    color: var(--dark-green);
+    font-weight: 700;
+    font-size: 1.3rem;
+}
+
+.journey-info em {
+    display: block;
+    margin-top: 8px;
+    font-style: italic;
+    color: #666;
+    font-size: 1rem;
+}
+
+.route-line {
+    background: #f0f8f8;           /* Hafif turkuaz vurgu */
+    padding: 18px;
+    border-radius: 14px;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: var(--dark-green);
+    margin: 20px 0 30px;
+}
+
+
+/* === ACTION BUTTONS === */
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 25px 0;
+}
+
+.btn-quote {
+    padding: 14px;
+    background: var(--sage-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-quote:hover {
+    background: #6b8e94;
+    transform: translateY(-2px);
+}
+
+.btn-book {
+    padding: 14px;
+    background: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(47, 82, 51, 0.3);
+}
+
+.btn-book:hover {
+    background: #1e3a22;
+    transform: translateY(-2px);
+}
+
+.btn-book i,
+.btn-quote i {
+    margin-right: 8px;
+}
+
+.disclaimer-box {
+    background: #f0fafa;                   /* Çok hafif turkuaz-krem */
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid var(--sage-green);
+}
+
+.disclaimer-box i {
+    color: var(--dark-green);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.disclaimer-box p {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-green);
+}
+.disclaimer-box p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+.disclaimer-box i {
+    color: var(--dark-green);               /* Koyu yeşil ikon */
+    margin-right: 8px;
+    font-size: 1rem;
+    font-weight: bold;
+    vertical-align: middle;                 /* Ortalanma için */
+}
+
+.disclaimer-box p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--dark-green);
+    line-height: 1.6;
+    margin: 0;
+    display: inline;
+    vertical-align: middle;                 /* İkonla aynı hizada */
+}
+
+.btn-new-calc {
+    background: none;
+    border: none;
+    color: var(--dark-green);      /* Normalde koyu yeşil */
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 16px;
+    text-decoration: none;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.btn-new-calc:hover {
+    color: #E6C229 !important;     /* Hover’da logo sarısı (altın sarı) */
+    text-decoration: underline;
+}
+
+.btn-new-calc i {
+    color: var(--dark-green);
+    transition: color 0.3s ease;
+}
+
+.btn-new-calc:hover i {
+    color: #856404 !important;     /* İkon da hover’da sarı */
+}
+
+/* === MODAL === */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(47, 82, 51, 0.7);
+}
+
+.modal-content {
+    position: relative;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    border-top: 6px solid var(--sage-green);
+    z-index: 1001;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.3s;
+}
+
+.modal-close:hover {
+    color: var(--dark-green);
+}
+
+.modal-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: var(--dark-green);
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.modal-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 25px;
+}
+
+.form-group label.contact-label {
+    text-align: center;
+}
+
+.radio-options {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 10px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+    font-family: 'Lato', sans-serif;
+}
+
+.radio-label input[type="radio"] {
+    width: auto;
+    margin-right: 6px;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--dark-green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+    background: #1e3a22;
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-submit i {
+    margin-right: 10px;
+}
+
+/* === SUCCESS CARD === */
+.success-card {
+    background: var(--cream);
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    border: 3px solid var(--success-green);
+    text-align: center;
+}
+
+.success-icon {
+    font-size: 4rem;
+    color: var(--success-green);
+    margin-bottom: 20px;
+}
+
+.success-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.75rem;
+    color: var(--dark-green);
+    margin-bottom: 15px;
+}
+
+.success-card p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 25px;
+    line-height: 1.6;
+}
+
+/* === FOOTER === */
+.footer {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.3);
+}
+
+.footer p {
+    font-family: 'Lato', sans-serif;
+    font-size: 0.9rem;
+    color: #FFFFFF;                /* Tam beyaz, çok net */
+    margin: 8px 0;
+    font-weight: 600;              /* Biraz kalın, dikkat çeksin */
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);  /* Hafif gölge, daha öne çıksın */
+}
+
+.designer-credit {
+    font-size: 0.85rem !important;
+    margin-top: 5px;
+}
+
+.designer-credit a {
+    color: #aa0909;                /* Yumuşak altın sarısı */
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+}
+
+.designer-credit a:hover {
+    color: #034202;                /* Hover’da beyaz */
+    text-decoration: underline;
+}
+
+/* === UTILITY === */
+.hidden {
+    display: none !important;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+    .logo {
+        width: 240px;
+    }
+
+    .header h1 {
+        font-size: 3.6;
+    }
+
+    .price-display {
+        font-size: 4rem;
+    }
+
+    .currency {
+        font-size: 3rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1.6fr;
+        gap: 0;
+    }
+
+    .calculator-card,
+    .result-card {
+        padding: 25px 20px;
+    }
+
+    .modal-content {
+        padding: 25px 20px;
+    }
+
+    .tab-btn {
+        font-size: 0.9rem;
+        padding: 12px 16px;
+    }
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.calculator-card,
+.result-card,
+.success-card {
+    animation: fadeIn 0.4s ease;
+}.tariff-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fffbe6;                    /* Hafif sarı-krem zemin (tasarıma uyumlu) */
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin: 20px 0;
+    border: 1px solid #e6d580;               /* Hafif sarı kenarlık */
+    box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    text-align: center;
+    font-size: 1.05rem;
+}
+
+.tariff-box i {
+    color: var(--dark-green);
+    margin-right: 12px;
+    font-size: 1.3rem;
+}
+
+.tariff-box strong {
+    color: var(--dark-green);
+    font-weight: 700;
+}
+
+.tariff-box em {
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+    color: #666;
+}
