@@ -436,5 +436,5 @@ function testFareCalculation() {
     console.log("Tariff 2 - 11.2 miles:", calculateMeterFare(11.2, RATES.tariff2).toFixed(2));
 }
 
-window.exportPopularRoutes = exportPopularRoutes;
-window.testFareCalculation = testFareCalculation;
+globalThis.exportPopularRoutes = exportPopularRoutes;
+globalThis.testFareCalculation = testFareCalculation;
