@@ -438,3 +438,4 @@ function testFareCalculation() {
 
 globalThis.exportPopularRoutes = exportPopularRoutes;
 globalThis.testFareCalculation = testFareCalculation;
+globalThis.resetCalculator = resetCalculator;
