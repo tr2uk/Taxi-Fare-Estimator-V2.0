@@ -374,7 +374,7 @@ function submitQuote(event) {
         calculation_method: currentJourneyData.method
     };
 
-    const serviceID = "service_9b3qgjg";
+    const serviceID = "service_4r7pm4r";
     const templateID = "template_p7gtstt";  
 
     emailjs.send(serviceID, templateID, templateParams)
